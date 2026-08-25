@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="OrbitronMod.vcxproj" Id="0624db7e-bf98-4028-bac7-82ca1ffda04d" />
+</Solution>
