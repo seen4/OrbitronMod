@@ -60,10 +60,7 @@ void SetHook()
 // 卸载钩子
 void UnHook()
 {
-	if (MH_DisableHook(&MessageBoxA) == MB_OK)
-	{
 		MH_Uninitialize();
-	}
 }
 
 BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
