@@ -39,6 +39,20 @@ void HookCloseTLEFile() {
 	WriteProcessMemory(GetCurrentProcess(), (void*)AssignFile, (void*)instruction, 5, NULL);
 }
 
+void HookGetEpoch() {
+	uint8_t instruction[11] = { 0x89,0xF8,0x59,0x90,0x90,0x90,0xE8 };//注意平栈!!!
+	size_t ConvertEpoch = 0x004682EB;
+	*(long*)&instruction[7] = (BYTE*)Epoch2JulianDate_wrap - (BYTE*)ConvertEpoch - 6 - 5 ;//计算相对地址,拼接成完整call指令
+	VirtualProtect((void*)ConvertEpoch, 12, PAGE_EXECUTE_READWRITE, NULL);
+	WriteProcessMemory(GetCurrentProcess(), (void*)ConvertEpoch, (void*)instruction, 11, NULL);
+}
+
+void Disable2055Limit() {
+	uint8_t jmp=0xEB;
+	VirtualProtect((void*)0x004DCC25, 2, PAGE_EXECUTE_READWRITE, NULL);
+	WriteProcessMemory(GetCurrentProcess(), (void*)0x004DCC25, (void*)&jmp, 1, NULL);
+}
+
 //设置钩子
 void SetHook()
 {
@@ -52,8 +66,12 @@ void SetHook()
 		HookCloseTLEFile();
 		MH_CreateHook((void*)0x004616C0, &GetCOSPAR_wrap, reinterpret_cast<void**>(&GetNORADID_ORG));
 		MH_EnableHook((void*)0x004616C0);
-		MH_CreateHook((void*)0x0046180C, &GetEpoch_wrap, reinterpret_cast<void**>(&GetNORADID_ORG));
+		MH_CreateHook((void*)0x0046180C, &Epoch2JulianDate_wrap, reinterpret_cast<void**>(&GetNORADID_ORG));
 		MH_EnableHook((void*)0x0046180C);
+		HookGetEpoch();
+		//MH_CreateHook((void*)0x0045A568, &JD2GE_wrap, reinterpret_cast<void**>(&GetNORADID_ORG));
+		//MH_EnableHook((void*)0x0045A568);
+		Disable2055Limit();
 	}
 }
 

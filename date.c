@@ -1,16 +1,17 @@
 ﻿#include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
+#include <stdint.h>
 
 #pragma warning(disable:4996)
 
 double Year2JulianDate(int Year) {
-	double date = (double)Year-1.0f;
-	double d1 = date/100.0f;
-	double d2 = 2.0f-d1-d1/4.0;
-	double d3 = d1*365.25;
+    //REF:https://blog.csdn.net/weixin_42763614/article/details/82880007
+    Year = Year - 1;
+    double B= 2 - floor(Year / 100) + floor(Year / 400);
+	double date = floor(365.25*(Year+4716)) + floor(30.6*(14)) + B - 1524.5;
 
-	return d2+d3+1720994.5;
+	return date;
 }
 
 static long i_round(double x) {
@@ -49,7 +50,7 @@ double ParseEpoch(const char* epoch) {
     if (d > days_in_month(y, mo)) return 0;
 
     doy = day_of_year(y, mo, d);
-    frac = (h * 3600.0 + mi * 60.0 + s) / 86400.0;
+    frac = ((double)h * 3600.0 + (double)mi * 60.0 + s) / 86400.0;
     f8 = i_round(frac * 1e8);
     if (f8 >= 100000000L) {         /* 小数进位到次日 */
         f8 = 0;
@@ -61,4 +62,40 @@ double ParseEpoch(const char* epoch) {
     }
 
     return Year2JulianDate(y) + doy + frac; 
+}
+
+void JulianDate2Gregorian(double jd, uint16_t *year, uint16_t *month, uint16_t *day, uint16_t *hour, uint16_t *minute, uint16_t *second) {
+    //REF:https://blog.csdn.net/qq_24172609/article/details/112244135
+    double frac=modf(jd,&jd);
+    if (jd > 2299161) {
+        jd=jd+10;
+        double a = (int)((jd - 2268993) / 36524.25);
+        jd=jd+a-(int)((a+3)/4);
+    }
+
+    uint16_t y=(int)(jd/365.25)-4712;
+    *year=y;
+
+    uint16_t muYD=0,m=0;
+    while (1) {
+        muYD = jd-(int)((y+4712)*365.25)-1;
+        if (muYD >= 59) {
+            m=(int)((muYD+1+63)/30.61)-1;
+            *month=m>12 ? m-12 : m;
+            break;
+        }
+        else {
+            y=y-1;
+        }
+    }
+
+    *day = muYD-(int)(30.61*(m+1))+63+1;
+
+    double hh=0,mm=0,ss=0;
+    frac=modf(frac*24,&hh);
+    frac=modf(frac*60,&mm);
+    ss=frac*60;
+
+    *hour=(int)hh,*minute=(int)mm;*second=(int)ss;
+    return;
 }

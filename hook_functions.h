@@ -26,7 +26,7 @@ int GetNORAD(const char *TLE_DATA, char *NORAD_ID) {
 	//获取NORAD ID
 	char string[10];
 	_itoa_s(o.norad_id, string, 10, 10);
-	LstrFromArray(NORAD_ID, string, 5);
+	LstrFromArray(NORAD_ID, string, 9);
 	return 0;
 }
 
@@ -62,7 +62,7 @@ __declspec(naked) int __fastcall GetCOSPAR_wrap(const char* TLE_DATA, char* COSP
 	}
 }
 
-double GetEpoch(const char* TLE_DATA) {
+double Epoch2JulianDate(const char* TLE_DATA) {
 	//获取ID
 	char data[75];
 	memcpy_s(data, (UINT8)TLE_DATA[0], TLE_DATA, (UINT8)TLE_DATA[0]);//pascal风格字符串里字符串的大小放在首位
@@ -76,10 +76,22 @@ double GetEpoch(const char* TLE_DATA) {
 	return ParseEpoch(o.epoch);
 }
 
-__declspec(naked) double __fastcall GetEpoch_wrap(const char* TLE_DATA) {
+__declspec(naked) double __fastcall Epoch2JulianDate_wrap(const char* TLE_DATA) {
 	__asm {
 		mov ecx, eax
-		jmp GetEpoch
+		jmp Epoch2JulianDate
+	}
+}
+
+void JD2GE(uint16_t *date, double jd) {
+	JulianDate2Gregorian(jd,&date[0],&date[1],&date[2],&date[3],&date[4],&date[5]);
+	return;
+}
+
+__declspec(naked) void __fastcall JD2GE_wrap(uint16_t, double) {
+	__asm {
+		mov ecx,eax
+		jmp JD2GE
 	}
 }
 
