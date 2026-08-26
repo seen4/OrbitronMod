@@ -470,6 +470,7 @@ static void build_lines(const omm_t *o, int raw_ndot, int raw_nddot,
 
     /* 范围检查与截断 */
     if (norad < 0) norad = 0;
+    if (norad > 99999) { norad = 99999; }
     if (elem < 0) elem = 0;
     if (elem > 9999) { fprintf(stderr, "警告: 元素集号 %ld 超出 4 位, 截断\n", elem); elem = 9999; }
     if (rev < 0) { fprintf(stderr, "警告: 圈数 %ld 为负, 置 0\n", rev); rev = 0; }
