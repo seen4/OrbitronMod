@@ -89,7 +89,7 @@ BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserve
 		break;
 	case DLL_PROCESS_DETACH:
 		UnHook();
-		sat_destroy(SatList);
+		if (SatList.data) sat_destroy(&SatList);
 		// 当DLL被卸载或进程终止时执行
 		break;
 	}

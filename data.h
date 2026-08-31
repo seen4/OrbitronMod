@@ -21,8 +21,10 @@ extern size_t sat_push(sat_data* self, omm_t data);
 extern void sat_access(sat_data self, omm_t* data, size_t id);
  
 extern sat_data sat_create();
- 
-extern void sat_destroy(sat_data data);
+
+extern void sat_clear(sat_data* self);
+
+extern void sat_destroy(sat_data *data);
 
 #ifdef __cplusplus
 }

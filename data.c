@@ -28,13 +28,22 @@ sat_data sat_create() {
 		return d;
 	}
 	d.capacity = SAT_DATA_DEFAULT_CAPACITY;
+	d.used=0;
 
 	return d;
 }
 
-void sat_destroy(sat_data data) {
-	for (size_t i = 0; i < data.used; i++) {
-		free(data.data[i]);
+void sat_clear(sat_data *self) {
+	for (size_t i = 0; i < self->used; i++) {
+		free(self->data[i]);
+		self->data[i]=NULL;
 	}
-	free(data.data);
+	self->used=0;
+}
+
+void sat_destroy(sat_data *self) {
+	sat_clear(self);
+	free(self->data);
+	self->data = NULL;
+	self->capacity = 0;
 }

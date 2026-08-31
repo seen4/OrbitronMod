@@ -100,7 +100,7 @@ long TLEFileSize;
 
 bool CreateTLEFileHandle(FILE** fd, const char* FilePath) {
 
-	if(SatList.data) sat_destroy(SatList);
+	if(SatList.data) sat_destroy(&SatList);
 	
 	printf("Loaded: %s\n",FilePath);
 	if(fopen_s(fd, FilePath, "r")) {
@@ -117,7 +117,7 @@ bool CreateTLEFileHandle(FILE** fd, const char* FilePath) {
 
 	omm_set_options(0, 0, 0, 0);
 
-	SatList=sat_create();
+	SatList = sat_create();
 
 	return TRUE;
 }
