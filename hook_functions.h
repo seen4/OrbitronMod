@@ -5,6 +5,8 @@
 #include "data.h"
 #include "date.h"
 
+const char OpenDialogFilterName[] = "\x17\0\0\0OMM files (*.TXT,*.CSV)";//字符串长度,4字节
+const char OpenDialogFilterType[] = "\x25\0\0\0|*.tle;*.txt;*.mtl;*.sat;*.csv;*.omm|";
 
 typedef int(__fastcall* GetNORAD_ORG) (const char* TLE_DATA, char* NORAD_ID);
 

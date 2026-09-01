@@ -23,7 +23,7 @@ __declspec(naked) int __fastcall LstrFromArray(char* Dest, const char* Source, i
 void SetTLEReadState(WORD value) {
 	__asm {
 		mov ax,value
-		mov word ptr ds:[0x4FCDD4],ax
+		mov WORD ptr ds:[0x4FCDD4],ax
 	}
 }
 

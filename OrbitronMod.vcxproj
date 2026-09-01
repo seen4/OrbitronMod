@@ -153,6 +153,7 @@
     <ClCompile Include="date.c" />
     <ClCompile Include="omm2tle.c" />
     <ClCompile Include="OrbitronMod.cpp" />
+    <ClCompile Include="web.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="date.h" />

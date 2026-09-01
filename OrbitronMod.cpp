@@ -53,6 +53,16 @@ void Disable2055Limit() {
 	WriteProcessMemory(GetCurrentProcess(), (void*)0x004DCC25, (void*)&jmp, 1, NULL);
 }
 
+void HookOpenDialog() {
+	uint8_t opcode[11];
+	opcode[0]=0x68,opcode[5]=0x90,opcode[6]=0x68;
+	uintptr_t HookAddr = 0x004E4B33;
+	*(long*)&opcode[1]=(long)&OpenDialogFilterName+4;
+	*(long*)&opcode[7] = (long)&OpenDialogFilterType+4;
+	VirtualProtect((void*)HookAddr, 12, PAGE_EXECUTE_READWRITE, NULL);
+	WriteProcessMemory(GetCurrentProcess(), (void*)HookAddr, (void*)&opcode, 11, NULL);
+}
+
 //设置钩子
 void SetHook()
 {
@@ -72,6 +82,7 @@ void SetHook()
 		//MH_CreateHook((void*)0x0045A568, &JD2GE_wrap, reinterpret_cast<void**>(&GetNORADID_ORG));
 		//MH_EnableHook((void*)0x0045A568);
 		Disable2055Limit();
+		HookOpenDialog();
 	}
 }
 

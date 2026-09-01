@@ -485,13 +485,13 @@ static void build_lines(const omm_t *o, int raw_ndot, int raw_nddot,
     if (ecci < 0) ecci = 0;
     if (ecci > 9999999) ecci = 9999999;
 
-    /* 第 0 行: 卫星名称, 固定 24 字符 */
+    /* 第 0 行: 卫星名称*/
     if (o->object_name[0]) {
         snprintf(name, OMM_NAME_BUF, "%s", o->object_name);
     } else {
         snprintf(name, OMM_NAME_BUF, "%05ld", norad);   /* 无名称时用目录号 */
     }
-    snprintf(l0, OMM_NAME_BUF, "%-24.24s", name);
+    snprintf(l0, OMM_NAME_BUF, "%-0.32s", name);
 
     /* 第 1 行 */
     format_object_id(o->object_id, intl);
