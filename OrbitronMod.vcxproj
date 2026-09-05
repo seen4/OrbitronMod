@@ -163,6 +163,7 @@
     <ClInclude Include="OrbitronMod.h" />
     <ClInclude Include="strops.h" />
     <ClInclude Include="data.h" />
+    <ClInclude Include="web.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

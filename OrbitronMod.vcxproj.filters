@@ -53,5 +53,8 @@
     <ClInclude Include="date.h">
       <Filter>源文件</Filter>
     </ClInclude>
+    <ClInclude Include="web.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

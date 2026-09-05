@@ -30,6 +30,7 @@ typedef struct {
 	char   classification;
 	char   ephemeris_type;
 	int    decayed;
+	double epoch_jd;
 } omm_t;
 
 

@@ -5,7 +5,7 @@
 #include "data.h"
 #include "date.h"
 
-const char OpenDialogFilterName[] = "\x17\0\0\0OMM files (*.TXT,*.CSV)";//字符串长度,4字节
+const char OpenDialogFilterName[] = "\x17\0\0\0OMM files (*.TXT,*.CSV)";//字符串长度,4字节补齐
 const char OpenDialogFilterType[] = "\x25\0\0\0|*.tle;*.txt;*.mtl;*.sat;*.csv;*.omm|";
 
 typedef int(__fastcall* GetNORAD_ORG) (const char* TLE_DATA, char* NORAD_ID);
@@ -75,7 +75,7 @@ double Epoch2JulianDate(const char* TLE_DATA) {
 	omm_t o;
 	sat_access(SatList, &o, sat_id);
 
-	return ParseEpoch(o.epoch);
+	return o.epoch_jd;
 }
 
 __declspec(naked) double __fastcall Epoch2JulianDate_wrap(const char* TLE_DATA) {
@@ -153,6 +153,7 @@ uint8_t ReadTLEData(char* SatelliteName, char* Moclzan, char* TLEDataBuffer) {
 
 	omm_t d;
 	omm_get_object_data(&d);
+	d.epoch_jd=ParseEpoch(d.epoch);
 	size_t id=sat_push(&SatList,d);
 
 	char tle_id[6];
