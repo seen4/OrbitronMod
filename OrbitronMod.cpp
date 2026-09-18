@@ -22,10 +22,10 @@ void HookAssignFile() {
 	WriteProcessMemory(GetCurrentProcess(), (void*)AssignFile, (void*)opcode, 5, NULL);
 
 	//将后面的代码置nop,防止代码尝试读取滚木句柄崩程序
-	uint8_t* nops[20];
-	memset(nops,0x90,20);
-	VirtualProtect((void*)(AssignFile + 5), 20, PAGE_EXECUTE_READWRITE, NULL);
-	WriteProcessMemory(GetCurrentProcess(), (void*)(AssignFile + 5), (void*)nops, 20, NULL);
+	uint8_t* nops[22];
+	memset(nops,0x90,22);
+	VirtualProtect((void*)(AssignFile + 5), 22, PAGE_EXECUTE_READWRITE, NULL);
+	WriteProcessMemory(GetCurrentProcess(), (void*)(AssignFile + 5), (void*)nops, 22, NULL);
 
 	return;
 }

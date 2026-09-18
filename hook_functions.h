@@ -104,7 +104,7 @@ bool CreateTLEFileHandle(FILE** fd, const char* FilePath) {
 
 	if(SatList.data) sat_destroy(&SatList);
 	
-	printf("Loaded: %s\n",FilePath);
+	printf("Loading: %s",FilePath);
 	if(fopen_s(fd, FilePath, "r")) {
 		MessageBoxA(NULL, "Failed Opening OMM！", "Error", MB_OK | MB_ICONERROR);
 		return FALSE;
@@ -127,7 +127,9 @@ bool CreateTLEFileHandle(FILE** fd, const char* FilePath) {
 __declspec(naked) bool __fastcall CreateTLEFileHandle_wrap(FILE*, const char*) {
 	__asm {
 		mov ecx, eax
-		jmp CreateTLEFileHandle
+		call CreateTLEFileHandle
+		mov ebx,eax
+		ret
 	}
 }
 

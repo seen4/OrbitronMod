@@ -62,7 +62,7 @@ PTypeIdent* __stdcall Downloader_InternetConnectA_Hook(HINTERNET hInternet,
 	}
 	if (*lpszServerName == '@') {
 		ident->type=PROTOCOL_TYPE_HTTPS;
-		memmove((void*)lpszServerName,lpszServerName+1,strlen(lpszServerName));
+		lpszServerName++;
 	}
 	else {
 		ident->type=PROTOCOL_TYPE_HTTP;

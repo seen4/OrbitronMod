@@ -4,11 +4,11 @@
 size_t sat_push(sat_data* self, omm_t data) {
 	if (self->used >= self->capacity) {
 		if(!self->data) return -1;
-		self->data = (omm_t**)realloc(self->data, (self->capacity + 1) * sizeof(omm_t*));
+		self->capacity*=2;
+		self->data = (omm_t**)realloc(self->data, self->capacity * sizeof(omm_t*));
 		if (!self->data) {
 			return -1;
 		}
-		self->capacity++;
 	}
 	self->used++;
 	self->data[self->used-1] = (omm_t*)malloc(sizeof(omm_t));
