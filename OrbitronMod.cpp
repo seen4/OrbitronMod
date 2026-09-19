@@ -12,13 +12,13 @@
 #pragma warning(disable:6387)
 
 
+//劫持TLE文件读取函数
 void HookAssignFile() {
-	//劫持TLE文件读取函数
 	uint8_t opcode[5];
 	opcode[0] = 0xE8;//E8 relative call
 	size_t AssignFile = (size_t)0x462718;
 	*(long*)&opcode[1] = (BYTE*)CreateTLEFileHandle_wrap - (BYTE*)AssignFile - 5;//计算相对地址,拼接成完整call指令
-	VirtualProtect((void*)AssignFile, 6, PAGE_EXECUTE_READWRITE, NULL);
+	VirtualProtect((void*)AssignFile, 5, PAGE_EXECUTE_READWRITE, NULL);
 	WriteProcessMemory(GetCurrentProcess(), (void*)AssignFile, (void*)opcode, 5, NULL);
 
 	//将后面的代码置nop,防止代码尝试读取滚木句柄崩程序
@@ -30,13 +30,13 @@ void HookAssignFile() {
 	return;
 }
 
+//劫持TLE文件关闭函数
 void HookCloseTLEFile() {
-	//劫持TLE文件关闭函数
 	uint8_t opcode[5];
 	opcode[0] = 0xE8;//E8 relative call
 	size_t AssignFile = (size_t)0x46276D;
 	*(long*)&opcode[1] = (BYTE*)CloseTLEFile_wrap - (BYTE*)AssignFile - 5;//计算相对地址,拼接成完整call指令
-	VirtualProtect((void*)AssignFile, 6, PAGE_EXECUTE_READWRITE, NULL);
+	VirtualProtect((void*)AssignFile, 5, PAGE_EXECUTE_READWRITE, NULL);
 	WriteProcessMemory(GetCurrentProcess(), (void*)AssignFile, (void*)opcode, 5, NULL);
 }
 
@@ -54,6 +54,8 @@ void Disable2055Limit() {
 	WriteProcessMemory(GetCurrentProcess(), (void*)0x004DCC25, (void*)&jmp, 1, NULL);
 }
 
+//默认的打开文件对话框不会显示.csv后缀的文件
+//这里给筛选器加入了.csv后缀
 void HookOpenDialog() {
 	uint8_t opcode[11];
 	opcode[0]=0x68,opcode[5]=0x90,opcode[6]=0x68;
@@ -64,6 +66,8 @@ void HookOpenDialog() {
 	WriteProcessMemory(GetCurrentProcess(), (void*)HookAddr, (void*)&opcode, 11, NULL);
 }
 
+//给TLE下载器加入https支持
+//默认的下载器只支持http
 void HookWebDownloader(){
 	uint8_t opcode1[5];
 	opcode1[0]=0xE8;
@@ -87,6 +91,18 @@ void HookWebDownloader(){
 	WriteProcessMemory(GetCurrentProcess(), (void*)Downloader_HttpOpenRequestA, (void*)opcode3, 5, NULL);
 }
 
+//程序中的排序算法是按字符串顺序排序，使用修改后的未补零NORAD ID会错误排序
+//这里通过将NORAD ID补齐到9个字符来解决这个问题(没招了)
+void Hook_FixNoradSorting() { 
+	//劫持排序规则获取函数的NORAD ID读取部分
+	uint8_t opcode[5];
+	opcode[0] = 0xE8;//E8 relative call
+	size_t GetNORAD = (size_t)0x004E7D88;
+	*(long*)&opcode[1] = (BYTE*)get_norad_for_sorting_wrap - (BYTE*)GetNORAD - 5;//计算相对地址,拼接成完整call指令
+	VirtualProtect((void*)GetNORAD, 5, PAGE_EXECUTE_READWRITE, NULL);
+	WriteProcessMemory(GetCurrentProcess(), (void*)GetNORAD, (void*)opcode, 5, NULL);
+}
+
 //设置钩子
 void SetHook()
 {
@@ -108,6 +124,7 @@ void SetHook()
 		Disable2055Limit();
 		HookOpenDialog();
 		HookWebDownloader();
+		Hook_FixNoradSorting();
 	}
 }
 

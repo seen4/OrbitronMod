@@ -26,3 +26,4 @@ void CStrToPascalString(char* str) {
 	memcpy(str+1,buf,len);
 	return;
 }
+			   

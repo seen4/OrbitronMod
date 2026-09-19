@@ -14,16 +14,21 @@ GetNORAD_ORG GetNORADID_ORG = nullptr;
 
 sat_data SatList;
 
-int GetNORAD(const char *TLE_DATA, char *NORAD_ID) {
+//获取卫星数据
+omm_t get_satellite_data(const char* TLE_DATA) {
 	//获取ID
-	char data[75];
-	memcpy_s(data, (UINT8)TLE_DATA[0], TLE_DATA, (UINT8)TLE_DATA[0]);//pascal风格字符串里字符串的大小放在首位
-	memmove(data,data+3,5);
-	data[5] = '\0';
+	char id[6];
+	memcpy_s(id, sizeof(id), TLE_DATA + 3, 5);
+	id[5] = '\0';
+	size_t sat_id = atoi(id);
 
-	size_t sat_id=atoi(data);
 	omm_t o;
-	sat_access(SatList,&o,sat_id);
+	sat_access(SatList, &o, sat_id);
+	return o;
+}
+
+int GetNORAD(const char *TLE_DATA, char *NORAD_ID) {
+	omm_t o=get_satellite_data(TLE_DATA);
 
 	//获取NORAD ID
 	char string[10];
@@ -39,22 +44,32 @@ __declspec(naked) int __fastcall GetNORAD_wrap(const char* TLE_DATA, char* NORAD
 	}
 }
 
+int get_norad_for_sorting(const char* TLE_DATA, char* NORAD_ID) {
+	omm_t o = get_satellite_data(TLE_DATA);
+
+	//获取NORAD ID
+	char string[10];
+	sprintf_s(string,sizeof(string),"%9d", o.norad_id);
+	LstrFromArray(NORAD_ID, string, 9);
+	return 0;
+}
+
+__declspec(naked) int __fastcall get_norad_for_sorting_wrap(const char* TLE_DATA, char* NORAD_ID) {
+	__asm {
+		mov ecx, eax
+		jmp get_norad_for_sorting
+	}
+}
+
 
 typedef int (__fastcall* GetCOSPAR_ORG)(const char* TLE_DATA, char* COSPAR_ID);
 
 int GetCOSPAR(const char* TLE_DATA, char* COSPAR_ID) {
-	//获取ID
-	char data[75];
-	memcpy_s(data, (UINT8)TLE_DATA[0], TLE_DATA, (UINT8)TLE_DATA[0]);//pascal风格字符串里字符串的大小放在首位
-	memmove(data, data + 3, 5);
-	data[5] = '\0';
-
-	size_t sat_id = atoi(data);
-	omm_t o;
-	sat_access(SatList, &o, sat_id);
+	omm_t o = get_satellite_data(TLE_DATA);
 
 	//获取COSPAR ID
 	LstrFromArray(COSPAR_ID, o.object_id, 32);
+	return 0;
 }
 
 __declspec(naked) int __fastcall GetCOSPAR_wrap(const char* TLE_DATA, char* COSPAR_ID) {
@@ -65,15 +80,7 @@ __declspec(naked) int __fastcall GetCOSPAR_wrap(const char* TLE_DATA, char* COSP
 }
 
 double Epoch2JulianDate(const char* TLE_DATA) {
-	//获取ID
-	char data[75];
-	memcpy_s(data, (UINT8)TLE_DATA[0], TLE_DATA, (UINT8)TLE_DATA[0]);//pascal风格字符串里字符串的大小放在首位
-	memmove(data, data + 3, 5);
-	data[5] = '\0';
-
-	size_t sat_id = atoi(data);
-	omm_t o;
-	sat_access(SatList, &o, sat_id);
+	omm_t o = get_satellite_data(TLE_DATA);
 
 	return o.epoch_jd;
 }
@@ -104,7 +111,7 @@ bool CreateTLEFileHandle(FILE** fd, const char* FilePath) {
 
 	if(SatList.data) sat_destroy(&SatList);
 	
-	printf("Loading: %s",FilePath);
+	printf("Loading: %s\n",FilePath);
 	if(fopen_s(fd, FilePath, "r")) {
 		MessageBoxA(NULL, "Failed Opening OMM！", "Error", MB_OK | MB_ICONERROR);
 		return FALSE;
