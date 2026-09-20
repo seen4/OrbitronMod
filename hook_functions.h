@@ -49,7 +49,7 @@ int get_norad_for_sorting(const char* TLE_DATA, char* NORAD_ID) {
 
 	//获取NORAD ID
 	char string[10];
-	sprintf_s(string,sizeof(string),"%9d", o.norad_id);
+	sprintf_s(string,sizeof(string),"%09d", o.norad_id);
 	LstrFromArray(NORAD_ID, string, 9);
 	return 0;
 }
@@ -63,7 +63,6 @@ __declspec(naked) int __fastcall get_norad_for_sorting_wrap(const char* TLE_DATA
 
 
 typedef int (__fastcall* GetCOSPAR_ORG)(const char* TLE_DATA, char* COSPAR_ID);
-
 int GetCOSPAR(const char* TLE_DATA, char* COSPAR_ID) {
 	omm_t o = get_satellite_data(TLE_DATA);
 
@@ -104,29 +103,31 @@ __declspec(naked) void __fastcall JD2GE_wrap(uint16_t, double) {
 	}
 }
 
-
-long TLEFileSize;
+//这个函数挂钩在TLE总读取函数的入口处
+//把Satdata清理和TLE读取函数分开
+//来解决同时加载多个文件的问题
+typedef void (__fastcall* SatData_cleanup_ORG)();
+SatData_cleanup_ORG Satdata_cleanup_ORG = nullptr;
+__declspec(noreturn) void SatData_cleanup() {
+	if (SatList.data) sat_destroy(&SatList);
+	SatList = sat_create();
+	__asm {
+		mov esp,ebp				; manually recover stack frame
+		pop ebp					; ugly as fuck, but necessary
+		jmp Satdata_cleanup_ORG	; if u dont want to fuck up the stack frame
+	}
+}
 
 bool CreateTLEFileHandle(FILE** fd, const char* FilePath) {
 
-	if(SatList.data) sat_destroy(&SatList);
-	
 	printf("Loading: %s\n",FilePath);
 	if(fopen_s(fd, FilePath, "r")) {
-		MessageBoxA(NULL, "Failed Opening OMM！", "Error", MB_OK | MB_ICONERROR);
+		MessageBoxA(NULL, "Failed Opening OMM!", "Error", MB_OK | MB_ICONERROR);
 		return FALSE;
 	}
 	SetTLEReadState(1);
-	
-	/*
-	fseek(*fd, 0, SEEK_END);
-	TLEFileSize = ftell(*fd);
-	fseek(*fd, 0, SEEK_SET);
-	*/
 
 	omm_set_options(0, 0, 0, 0);
-
-	SatList = sat_create();
 
 	return TRUE;
 }

@@ -94,7 +94,7 @@ void HookWebDownloader(){
 //程序中的排序算法是按字符串顺序排序，使用修改后的未补零NORAD ID会错误排序
 //这里通过将NORAD ID补齐到9个字符来解决这个问题(没招了)
 void Hook_FixNoradSorting() { 
-	//劫持排序规则获取函数的NORAD ID读取部分
+	//劫持获取排序规则函数的NORAD ID读取部分
 	uint8_t opcode[5];
 	opcode[0] = 0xE8;//E8 relative call
 	size_t GetNORAD = (size_t)0x004E7D88;
@@ -125,6 +125,8 @@ void SetHook()
 		HookOpenDialog();
 		HookWebDownloader();
 		Hook_FixNoradSorting();
+		MH_CreateHook((void*)0x004D8068, &SatData_cleanup, reinterpret_cast<void**>(&Satdata_cleanup_ORG));
+		MH_EnableHook((void*)0x004D8068);
 	}
 }
 
