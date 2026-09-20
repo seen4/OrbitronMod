@@ -1,24 +1,33 @@
 # OrbitronMod
+[中文](/README_CN.md)
 
-为Orbitron增加对OMM星历格式的支持，并修复了TLE的千年虫问题
+Contains some modifications to Orbitron.
 
-## 使用方法
-- 准备一个DLL注入器（例如[Xenos](https://github.com/DarthTon/Xenos/releases)）
+## Features
+- Replaced the ephemeris format from TLE with OMM
 
-- 运行 `Xenos.exe`
+- Completely fixed the Y2K problem in TLE
 
-- 点击 `New`，在弹出的窗口中选择`Orbitron.exe`
-
-- 点击 `Add`， 选择 `OrbitronMod.dll`
-
-- 点击 `Inject`，启动Orbitron
+- Added support for HTTPS servers to TLE updater
 
 
-## 如何编译
-- 下载 [MinHook](https://github.com/TsudaKageyu/minhook/releases)
+## Usage
+- Prepare a DLL injector (e.g., [Xenos](https://github.com/DarthTon/Xenos/releases))
 
-- 在 `packages`文件夹下新建一个名为 `minhook` 的文件夹
+- Run `Xenos.exe`
 
-- 将下载好的Minhook解压到这个文件夹中
+- Click `New`, and in the pop-up window select `Orbitron.exe`
 
-- 打开`OrbitronMod.slnx`
+- Click `Add`, and select `OrbitronMod.dll`
+
+- Click `Inject` to launch Orbitron
+
+
+## How to Build
+- Download [MinHook](https://github.com/TsudaKageyu/minhook/releases)
+
+- Create a new folder named `minhook` under the `packages` folder
+
+- Extract the downloaded MinHook into this folder
+
+- Open `OrbitronMod.slnx`
