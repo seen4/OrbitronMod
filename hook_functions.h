@@ -9,7 +9,6 @@ const char OpenDialogFilterName[] = "\x17\0\0\0OMM files (*.TXT,*.CSV)";//字符
 const char OpenDialogFilterType[] = "\x25\0\0\0|*.tle;*.txt;*.mtl;*.sat;*.csv;*.omm|";
 
 typedef int(__fastcall* GetNORAD_ORG) (const char* TLE_DATA, char* NORAD_ID);
-
 GetNORAD_ORG GetNORADID_ORG = nullptr;
 
 sat_data SatList;
@@ -114,7 +113,17 @@ __declspec(noreturn) void SatData_cleanup() {
 	__asm {
 		mov esp,ebp				; manually recover stack frame
 		pop ebp					; ugly as fuck, but necessary
+		popfd					; recover registers
+		popad
 		jmp Satdata_cleanup_ORG	; if u dont want to fuck up the stack frame
+	}
+}
+
+__declspec(naked) void SatData_cleanup_wrap() {
+	__asm {
+		pushad	; Save all registers
+		pushfd
+		jmp SatData_cleanup
 	}
 }
 
@@ -141,8 +150,8 @@ __declspec(naked) bool __fastcall CreateTLEFileHandle_wrap(FILE*, const char*) {
 	}
 }
 
-typedef int(__fastcall* ReadTLEData_ORG) (char*, char*, char* );
 
+typedef int(__fastcall* ReadTLEData_ORG) (char*, char*, char* );
 //WARNING:All strings must be in pascal style( size+data, without \0 truncate )
 //SatelliteName is delphi LStr
 uint8_t ReadTLEData(char* SatelliteName, char* Moclzan, char* TLEDataBuffer) {

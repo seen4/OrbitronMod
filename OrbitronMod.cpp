@@ -125,7 +125,7 @@ void SetHook()
 		HookOpenDialog();
 		HookWebDownloader();
 		Hook_FixNoradSorting();
-		MH_CreateHook((void*)0x004D8068, &SatData_cleanup, reinterpret_cast<void**>(&Satdata_cleanup_ORG));
+		MH_CreateHook((void*)0x004D8068, &SatData_cleanup_wrap, reinterpret_cast<void**>(&Satdata_cleanup_ORG));
 		MH_EnableHook((void*)0x004D8068);
 	}
 }
