@@ -150,3 +150,7 @@ BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserve
 	}
 	return TRUE;
 }
+
+//Dummy fuction, used to generate Export Table
+//to inject dll by IAT method
+__declspec(dllexport) volatile void dummy(){}
