@@ -19,6 +19,12 @@
 
 - 点击 `Inject`，启动Orbitron
 
+### 或者
+- 下载 `Software\Orbitron-modified.exe` 和 `OrbitronMod.dll`
+
+- 将这两个文件复制到Orbitron安装目录下
+
+- 运行 `Orbitron-modified.exe`
 
 ## 如何编译
 - 下载 [MinHook](https://github.com/TsudaKageyu/minhook/releases)

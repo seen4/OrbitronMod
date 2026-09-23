@@ -22,6 +22,13 @@ Contains some modifications to Orbitron.
 
 - Click `Inject` to launch Orbitron
 
+### OR
+- Download `Software\Orbitron-modified.exe` and `OrbitronMod.dll`
+
+- Place these two files under Orbitron installation directory
+
+- Run `Orbitron-modified.exe`
+
 
 ## How to Build
 - Download [MinHook](https://github.com/TsudaKageyu/minhook/releases)
