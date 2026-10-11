@@ -4,7 +4,7 @@
 Contains some modifications to Orbitron.
 
 ## Features
-- Replaced the ephemeris format from TLE with OMM
+- Replace ephemeris format from TLE with OMM
 
 - Completely fixed the Y2K problem in TLE
 
