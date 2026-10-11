@@ -8,7 +8,7 @@
 #include <Windows.h>
 
 const char OpenDialogFilterName[] = "\x23\0\0\0OMM files (*.TXT,*.CSV,*.KVN,*.XML)";//字符串长度,4字节补齐
-const char OpenDialogFilterType[] = "\x31\0\0\0|*.tle;*.txt;*.mtl;*.sat;*.csv;*.omm;*.kvn,*.xml|";
+const char OpenDialogFilterType[] = "\x31\0\0\0|*.tle;*.txt;*.mtl;*.sat;*.csv;*.omm;*.kvn;*.xml|";
 
 typedef int(__fastcall* GetNORAD_ORG) (const char* TLE_DATA, char* NORAD_ID);
 GetNORAD_ORG GetNORADID_ORG = nullptr;
