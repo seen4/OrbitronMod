@@ -1,60 +1,111 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="源文件">
+    <Filter Include="Source">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="头文件">
+    <Filter Include="Source\omm2tle">
+      <UniqueIdentifier>{d7f2f3e0-6945-4989-be8a-1e81ef32382f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\omm2tle\parser">
+      <UniqueIdentifier>{90eacae8-4936-4a4d-8d66-acc7cdd42640}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\omm2tle\tool">
+      <UniqueIdentifier>{7a08c0dc-1522-46b4-b780-02f66022fd2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\main">
+      <UniqueIdentifier>{8b6e8df0-b406-447b-93a8-4761e4f062bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="资源文件">
+    <Filter Include="Resource">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="OrbitronMod.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="omm2tle.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="data.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="date.c">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="web.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
+    <ClInclude Include="src\omm2tle\omm2tle.h">
+      <Filter>Source\omm2tle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\omm2tle\tle_builder.h">
+      <Filter>Source\omm2tle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\omm2tle\parsers_list.h">
+      <Filter>Source\omm2tle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\omm2tle\parser\csv.h">
+      <Filter>Source\omm2tle\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\omm2tle\tool\string_operation.h">
+      <Filter>Source\omm2tle\tool</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\strops.h">
+      <Filter>Source\main</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\web.h">
+      <Filter>Source\main</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\data.h">
+      <Filter>Source\main</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\date.h">
+      <Filter>Source\main</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\hook_functions.h">
+      <Filter>Source\main</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\internals.h">
+      <Filter>Source\main</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OrbitronMod.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="src\omm2tle\parser\json.h">
+      <Filter>Source\omm2tle\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\omm2tle\parser\xml.h">
+      <Filter>Source\omm2tle\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="src\omm2tle\parser\kvn.h">
+      <Filter>Source\omm2tle\parser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="OrbitronMod.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
-    <ClInclude Include="internals.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
-    <ClInclude Include="strops.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
-    <ClInclude Include="omm2tle.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
-    <ClInclude Include="hook_functions.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
-    <ClInclude Include="data.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
-    <ClInclude Include="date.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
-    <ClInclude Include="web.h">
-      <Filter>源文件</Filter>
-    </ClInclude>
+    <ClCompile Include="src\omm2tle\omm2tle.c">
+      <Filter>Source\omm2tle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\omm2tle\parser\csv.c">
+      <Filter>Source\omm2tle\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="src\omm2tle\tle_builder.c">
+      <Filter>Source\omm2tle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\omm2tle\tool\string_operation.c">
+      <Filter>Source\omm2tle\tool</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\web.cpp">
+      <Filter>Source\main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\data.c">
+      <Filter>Source\main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\date.c">
+      <Filter>Source\main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OrbitronMod.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\omm2tle\json.c">
+      <Filter>Source\omm2tle\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="src\omm2tle\parser\xml.c">
+      <Filter>Source\omm2tle\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="src\omm2tle\parser\kvn.c">
+      <Filter>Source\omm2tle\parser</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

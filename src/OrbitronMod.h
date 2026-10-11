@@ -1,5 +1,5 @@
 #pragma once
-#include "packages/minhook/include/MinHook.h"
+#include "../packages/minhook/include/MinHook.h"
 
 
 #if (defined _M_X64) && (defined __x86_64__)

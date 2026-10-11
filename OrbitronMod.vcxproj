@@ -18,6 +18,36 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\main\data.h" />
+    <ClInclude Include="src\main\date.h" />
+    <ClInclude Include="src\main\hook_functions.h" />
+    <ClInclude Include="src\main\internals.h" />
+    <ClInclude Include="src\main\strops.h" />
+    <ClInclude Include="src\main\web.h" />
+    <ClInclude Include="src\omm2tle\omm2tle.h" />
+    <ClInclude Include="src\omm2tle\parsers_list.h" />
+    <ClInclude Include="src\omm2tle\parser\csv.h" />
+    <ClInclude Include="src\omm2tle\parser\json.h" />
+    <ClInclude Include="src\omm2tle\parser\kvn.h" />
+    <ClInclude Include="src\omm2tle\parser\xml.h" />
+    <ClInclude Include="src\omm2tle\tle_builder.h" />
+    <ClInclude Include="src\omm2tle\tool\string_operation.h" />
+    <ClInclude Include="src\OrbitronMod.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main\data.c" />
+    <ClCompile Include="src\main\date.c" />
+    <ClCompile Include="src\main\web.cpp" />
+    <ClCompile Include="src\omm2tle\json.c" />
+    <ClCompile Include="src\omm2tle\omm2tle.c" />
+    <ClCompile Include="src\omm2tle\parser\csv.c" />
+    <ClCompile Include="src\omm2tle\parser\kvn.c" />
+    <ClCompile Include="src\omm2tle\parser\xml.c" />
+    <ClCompile Include="src\omm2tle\tle_builder.c" />
+    <ClCompile Include="src\omm2tle\tool\string_operation.c" />
+    <ClCompile Include="src\OrbitronMod.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>18.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -77,7 +107,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <LanguageStandard_C>stdc17</LanguageStandard_C>
+      <LanguageStandard_C>stdclatest</LanguageStandard_C>
       <CallingConvention>FastCall</CallingConvention>
       <AssemblerOutput>AssemblyAndSourceCode</AssemblerOutput>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
@@ -85,7 +115,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
     </Link>
     <Manifest>
       <EnableSegmentHeap>true</EnableSegmentHeap>
@@ -150,23 +180,6 @@
       <EnableSegmentHeap>true</EnableSegmentHeap>
     </Manifest>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="data.c" />
-    <ClCompile Include="date.c" />
-    <ClCompile Include="omm2tle.c" />
-    <ClCompile Include="OrbitronMod.cpp" />
-    <ClCompile Include="web.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="date.h" />
-    <ClInclude Include="hook_functions.h" />
-    <ClInclude Include="internals.h" />
-    <ClInclude Include="omm2tle.h" />
-    <ClInclude Include="OrbitronMod.h" />
-    <ClInclude Include="strops.h" />
-    <ClInclude Include="data.h" />
-    <ClInclude Include="web.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
 </Project>

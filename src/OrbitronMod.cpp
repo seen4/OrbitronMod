@@ -4,10 +4,9 @@
 #include <stdint.h>
 #include <memory.h>
 #include <stdlib.h>
-#include "omm.h"
-#include"internals.h"
-#include "hook_functions.h"
-#include "web.h"
+#include"./main/internals.h"
+#include "./main/hook_functions.h"
+#include "./main/web.h"
 
 #pragma warning(disable:6387)
 
@@ -152,5 +151,5 @@ BOOL APIENTRY DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserve
 }
 
 //Dummy fuction, used to generate Export Table
-//to inject dll by IAT method
+//to inject dll by modifying program IAT
 __declspec(dllexport) volatile void dummy(){}

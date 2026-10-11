@@ -1,9 +1,11 @@
 ﻿#pragma once
 #include "internals.h"
 #include "strops.h"
-#include "omm2tle.h"
+#include "./omm2tle/omm2tle.h"
 #include "data.h"
 #include "date.h"
+#include <stdlib.h>
+#include <Windows.h>
 
 const char OpenDialogFilterName[] = "\x17\0\0\0OMM files (*.TXT,*.CSV)";//字符串长度,4字节补齐
 const char OpenDialogFilterType[] = "\x25\0\0\0|*.tle;*.txt;*.mtl;*.sat;*.csv;*.omm|";
@@ -136,6 +138,7 @@ bool CreateTLEFileHandle(FILE** fd, const char* FilePath) {
 	}
 	SetTLEReadState(1);
 
+	omm_init(*fd);
 	omm_set_options(0, 0, 0, 0);
 
 	return TRUE;
@@ -161,8 +164,8 @@ uint8_t ReadTLEData(char* SatelliteName, char* Moclzan, char* TLEDataBuffer) {
 	char line1[75];
 	char line2[75];
 
-	int rc;
-	if( (rc=omm_next_tle(*fd, SatName, line1, line2),rc) == 0){
+	int rc = omm_next_tle(*fd, SatName, line1, line2);
+	if(!rc){  //EOF
 		return -1;
 	}
 	if (rc < 0) {

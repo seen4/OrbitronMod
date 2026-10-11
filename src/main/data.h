@@ -1,6 +1,6 @@
 #pragma once
 
-#include "omm2tle.h"
+#include "../omm2tle/omm2tle.h"
 #include <stdlib.h>
 #include <memory.h>
 
@@ -20,7 +20,7 @@ extern size_t sat_push(sat_data* self, omm_t data);
 
 extern void sat_access(sat_data self, omm_t* data, size_t id);
  
-extern sat_data sat_create();
+extern sat_data sat_create(void);
 
 extern void sat_clear(sat_data* self);
 

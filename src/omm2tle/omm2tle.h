@@ -14,6 +14,7 @@
  */
 
 #include <stdio.h>
+#include "parsers_list.h"
 
 #define OMM_NAME_BUF 33   /* 卫星名称缓冲区: 32 字符 + NUL */
 #define OMM_TLE_BUF  70   /* TLE 行缓冲区: 69 字符 + NUL */
@@ -25,7 +26,7 @@ typedef struct {
 	char epoch[40];
 	double mean_motion, eccentricity, inclination, raan, argp, mean_anomaly;
 	double bstar, ndot, nddot;
-	long   norad_id, element_set;
+	unsigned long   norad_id, element_set;
 	long   rev;
 	char   classification;
 	char   ephemeris_type;
@@ -34,8 +35,24 @@ typedef struct {
 } omm_t;
 
 
+typedef struct {
+	enum parser_type parser;
+
+	//  Virtual function
+
+	// Take in filepointer fp, output proccessed data in "data"
+	// Return value: 1: Success  0: EOF  -1: ERROR
+	int (*parse_next_line)(FILE* fp, omm_t* data);
+	int (*parser_reset)();
+
+} omm_parser;
+
+
 #ifdef __cplusplus
 extern "C" {
+#endif
+
+	extern int omm_init(FILE* fp);
 
 	/*
 	 * 从文件流读取一条 OMM 记录并转换为 TLE 三行。
@@ -68,6 +85,7 @@ extern "C" {
 
 	extern void omm_get_object_data(omm_t* data);
 
+#ifdef __cplusplus
 }
 
 #endif // __STDC__
