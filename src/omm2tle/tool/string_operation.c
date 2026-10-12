@@ -41,7 +41,7 @@ void trim(char* s) {
     size_t n;
     while (*p == ' ' || *p == '\t') p++;
     n = strlen(p);
-    while (n > 0 && (p[n - 1] == ' ' || p[n - 1] == '\t' || p[n - 1] == '\r' || p[n - 1] == '\n')) {
+    while (n > 1 && (p[n - 1] == ' ' || p[n - 1] == '\t' || p[n - 1] == '\r' || p[n - 1] == '\n')) {
         p[--n] = '\0';
     }
     if (p != s) memmove(s, p, n + 1);

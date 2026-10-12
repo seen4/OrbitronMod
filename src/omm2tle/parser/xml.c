@@ -64,7 +64,7 @@ static char* getvalue(FILE* fp) {
 
 	size_t nlen = 0;
 	for (uchar ch = xml_getc(fp);
-		ch != '<' && ch != '/'; ch = xml_getc(fp)) {
+		ch != '<' ; ch = xml_getc(fp)) {
 		if (ch == 0) return 0;
 		nlen++;
 	}
@@ -90,13 +90,15 @@ static char* xml_next_tag(FILE* fp) {
 }
 
 static bool skip_empty_lines(FILE* fp) {
-	for (char chr; chr = fgetc(fp);) {
+	char chr;
+	do {
+		chr = fgetc(fp);
 		if (feof(fp)) return 0;
 		if (chr != '\n') {
 			revert(fp);
 			return 1;
 		}
-	}
+	} while (chr);
 }
 
 static bool init=false;
@@ -112,9 +114,7 @@ bool xml_detect(FILE* fp) {
 	if (!skip_empty_lines(fp)) goto RETURN;
 	if (xml_getc(fp) != '<') goto RETURN;
 	char* name=get_nodename(fp);
-	if (!name) {
-		return result;
-	}
+	if (!name) goto RETURN;
 	if (!keycmp(name, "?xml")) {
 		result = true;
 	}

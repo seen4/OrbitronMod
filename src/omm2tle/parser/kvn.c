@@ -23,7 +23,9 @@
 
 /* 从流读取一行(含换行); 行超长时丢弃剩余部分并警告。返回 1 成功 / 0 EOF。 */
 static int read_next_line(FILE* fp, char* buf, size_t bufsz) {
-    if (!fgets(buf, (int)bufsz, fp)) return 0;
+    if (!fgets(buf, (int)bufsz, fp)) {
+        fprintf(stderr, "ERROR: %s\n", strerror(errno));
+        return 0;}
     if (!strchr(buf, '\n') && !feof(fp)) {
         fprintf(stderr, "警告: 行超过 %u 字符, 已丢弃\n", (unsigned)bufsz);
         while (fgets(buf, (int)bufsz, fp)) {
@@ -36,24 +38,30 @@ static int read_next_line(FILE* fp, char* buf, size_t bufsz) {
 static void revert(FILE *fp) {
     for (char chr; chr = fgetc(fp);) {
         if(chr=='\n') break;
-        if (fseek(fp, -2, SEEK_CUR)) return;
+        if(ftell(fp)<3) {rewind(fp);return;}
+        if (fseek(fp, -2, SEEK_CUR)) {
+            fprintf(stderr, "ERROR seeking: %s\n", strerror(errno));
+            return;}
     }
 }
 
 static bool skip_empty_lines(FILE* fp) {
-    for (char chr; chr = fgetc(fp);) {
+    char chr;
+    do {
+        chr=fgetc(fp);
         if(feof(fp)) return 0;
         if (chr != '\n') {
             revert(fp);
             return 1;
         }
-    }
+    }while(chr);
 }
 
 static int keycmp(const char* linebuf, char* key) {
     char* buf = calloc(sizeof(char), strlen(linebuf));
     strncpy(buf, linebuf, strlen(linebuf));
     char* tok = strtok(buf, "=\n");
+    if(!tok) return 1;
     trim(tok);
     return strcmp(key, tok);
 }
@@ -80,7 +88,9 @@ void kvn_reset() {
 _Bool kvn_detect(FILE* fp) {
     bool result=false;
     if(!skip_empty_lines(fp)) goto RETURN;
-    read_next_line(fp, &linebuf, sizeof(linebuf));
+    if (!read_next_line(fp, &linebuf, _countof(linebuf))) {
+       return false;
+    }
     if (!keycmp(&linebuf, "CCSDS_OMM_VERS")) {
         result=true;
     }

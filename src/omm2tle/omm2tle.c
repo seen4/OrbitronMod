@@ -54,6 +54,7 @@ omm_t SatData;
 
 /*  初始化解析器  */
 int omm_init(FILE *fp) {
+
     if (xml_detect(fp)) {
         /* 设置解析器类型 */
         parser.parser = PARSER_XML;
@@ -71,7 +72,7 @@ int omm_init(FILE *fp) {
         return 0;
     }
     /* 设置解析器类型 */
-    parser.parser = PARSER_CSV;   //临时解决方案，目前只支持解析csv
+    parser.parser = PARSER_CSV;   
     /* 初始化函数指针 */
     parser.parse_next_line = csv_next_line;
     parser.parser_reset = csv_reset;
