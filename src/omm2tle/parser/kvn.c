@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <malloc.h>
 #include "kvn.h"
 #include "../tool/string_operation.h"
 
@@ -58,7 +59,7 @@ static bool skip_empty_lines(FILE* fp) {
 }
 
 static int keycmp(const char* linebuf, char* key) {
-    char* buf = calloc(sizeof(char), strlen(linebuf));
+    char* buf = _alloca(strlen(linebuf));
     strncpy(buf, linebuf, strlen(linebuf));
     char* tok = strtok(buf, "=\n");
     if(!tok) return 1;

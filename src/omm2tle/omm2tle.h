@@ -42,7 +42,7 @@ typedef struct {
 
 	// Take in filepointer fp, output proccessed data in "data"
 	// Return value: 1: Success  0: EOF  -1: ERROR
-	int (*parse_next_line)(FILE* fp, omm_t* data);
+	int (*parse_next_item)(FILE* fp, omm_t* data);
 	int (*parser_reset)();
 
 } omm_parser;
@@ -64,7 +64,7 @@ extern "C" {
 	 * 返回: 1 = 成功; 0 = 已到文件末尾; -1 = 致命错误(表头缺少必要列等)。
 	 * 注: 解析失败或 DECAYED=1(启用 skip_decayed 时)的记录自动跳过并继续。
 	 */
-	extern int omm_next_tle(FILE* fp, char* name, char* line1, char* line2);
+	extern int omm_next_item(FILE* fp, char* name, char* line1, char* line2);
 
 	/*
 	 * 设置转换选项(任一时间调用, 在下一次 omm_next_tle 前生效):

@@ -1,6 +1,7 @@
 #pragma once
 #include<string.h>
 #include <stdint.h>
+#include <malloc.h>
 
 void trimString(char* str) {
 	char* start = str + strspn(str, " \t\n\r");
@@ -20,7 +21,7 @@ void trimString(char* str) {
 
 void CStrToPascalString(char* str) {
 	uint8_t len=strlen(str);
-	char *buf=(char*)calloc(len+1,sizeof(char));
+	char *buf=(char*)_malloca(len+1);
 	strcpy_s(buf,len+1,str);
 	str[0]=len;
 	memcpy(str+1,buf,len);

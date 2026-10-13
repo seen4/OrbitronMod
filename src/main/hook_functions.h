@@ -113,8 +113,7 @@ __declspec(noreturn) void SatData_cleanup() {
 	if (SatList.data) sat_destroy(&SatList);
 	SatList = sat_create();
 	__asm {
-		mov esp,ebp				; manually recover stack frame
-		pop ebp					; ugly as fuck, but necessary
+		leave			; manually recover stack frame
 		popfd					; recover registers
 		popad
 		jmp Satdata_cleanup_ORG	; if u dont want to fuck up the stack frame
@@ -164,7 +163,7 @@ uint8_t ReadTLEData(char* SatelliteName, char* Moclzan, char* TLEDataBuffer) {
 	char line1[75];
 	char line2[75];
 
-	int rc = omm_next_tle(*fd, SatName, line1, line2);
+	int rc = omm_next_item(*fd, SatName, line1, line2);
 	if(!rc){  //EOF
 		return -1;
 	}

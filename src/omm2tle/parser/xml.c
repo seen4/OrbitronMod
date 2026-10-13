@@ -4,6 +4,7 @@
 #include<string.h>
 #include<stdbool.h>
 #include<ctype.h>
+#include <malloc.h>
 #include"xml.h"
 
 #define KVN_LINE_BUF 512
@@ -48,11 +49,11 @@ static char* get_nodename(FILE* fp) {
 }
 
 static int keycmp(const char* Str1, const char* Str2) {
-	char* buf1 = calloc(strlen(Str1), sizeof(char));
+	char* buf1 = _alloca(strlen(Str1));
 	for (size_t i = 0; i < strlen(Str1); i++) {
 		buf1[i] = toupper(Str1[i]);
 	}
-	char* buf2 = calloc(strlen(Str1), sizeof(char));
+	char* buf2 = _alloca(strlen(Str1));
 	for (size_t i = 0; i < strlen(Str1); i++) {
 		buf2[i] = toupper(Str2[i]);
 	}

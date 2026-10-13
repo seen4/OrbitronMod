@@ -59,7 +59,7 @@ int omm_init(FILE *fp) {
         /* 设置解析器类型 */
         parser.parser = PARSER_XML;
         /* 初始化函数指针 */
-        parser.parse_next_line = xml_parse;
+        parser.parse_next_item = xml_parse;
         parser.parser_reset = xml_reset;
         return 0;
     }
@@ -67,14 +67,14 @@ int omm_init(FILE *fp) {
         /* 设置解析器类型 */
         parser.parser = PARSER_KVN;
         /* 初始化函数指针 */
-        parser.parse_next_line = kvn_parse;
+        parser.parse_next_item = kvn_parse;
         parser.parser_reset = kvn_reset;
         return 0;
     }
     /* 设置解析器类型 */
     parser.parser = PARSER_CSV;   
     /* 初始化函数指针 */
-    parser.parse_next_line = csv_next_line;
+    parser.parse_next_item = csv_next_line;
     parser.parser_reset = csv_reset;
 
     return 0;
@@ -102,14 +102,14 @@ void omm_reset(void) {
  * 首次调用时读取表头并建立列映射; 之后每次调用处理一条记录。
  * 返回: 1 = 成功; 0 = 文件结束; -1 = 致命错误(表头缺少必要列)。
  */
-int omm_next_tle(FILE *fp, char *name, char *line1, char *line2) {
+int omm_next_item(FILE *fp, char *name, char *line1, char *line2) {
     omm_t parsed_data;
     int status=0;
 
     if (!fp || !name || !line1 || !line2) return -1;
 
 
-    status = parser.parse_next_line(fp,&parsed_data);
+    status = parser.parse_next_item(fp,&parsed_data);
     if(status == 0 || status == -1) return status;
 
     build_lines(&parsed_data, cfg_half_ndot ? 0 : 1,
