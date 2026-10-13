@@ -21,7 +21,7 @@ void trimString(char* str) {
 
 void CStrToPascalString(char* str) {
 	uint8_t len=strlen(str);
-	char *buf=(char*)_malloca(len+1);
+	char *buf=(char*)_alloca(len+1);
 	strcpy_s(buf,len+1,str);
 	str[0]=len;
 	memcpy(str+1,buf,len);

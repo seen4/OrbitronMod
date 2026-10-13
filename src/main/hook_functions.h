@@ -176,6 +176,10 @@ uint8_t ReadTLEData(char* SatelliteName, char* Moclzan, char* TLEDataBuffer) {
 	omm_get_object_data(&d);
 	d.epoch_jd=ParseEpoch(d.epoch);
 	size_t id=sat_push(&SatList,d);
+	if (id == -1) {
+		MessageBoxA(NULL, "Not enough memory", "Error", MB_OK | MB_ICONERROR);
+		return 0;
+	}
 
 	char tle_id[6];
 	sprintf_s(tle_id,6,"%05d",id);

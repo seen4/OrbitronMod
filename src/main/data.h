@@ -9,7 +9,7 @@
 typedef struct {
 	size_t capacity;
 	size_t used;
-	omm_t **data;
+	omm_t *data;
 }sat_data;
 
 #ifdef __cplusplus
