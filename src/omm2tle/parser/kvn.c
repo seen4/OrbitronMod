@@ -25,7 +25,7 @@
 /* 从流读取一行(含换行); 行超长时丢弃剩余部分并警告。返回 1 成功 / 0 EOF。 */
 static int read_next_line(FILE* fp, char* buf, size_t bufsz) {
     if (!fgets(buf, (int)bufsz, fp)) {
-        fprintf(stderr, "ERROR: %s\n", strerror(errno));
+        //fprintf(stderr, "ERROR: %s\n", strerror(errno));
         return 0;}
     if (!strchr(buf, '\n') && !feof(fp)) {
         fprintf(stderr, "警告: 行超过 %u 字符, 已丢弃\n", (unsigned)bufsz);

@@ -39,9 +39,9 @@
     <ClCompile Include="src\main\data.c" />
     <ClCompile Include="src\main\date.c" />
     <ClCompile Include="src\main\web.cpp" />
-    <ClCompile Include="src\omm2tle\json.c" />
     <ClCompile Include="src\omm2tle\omm2tle.c" />
     <ClCompile Include="src\omm2tle\parser\csv.c" />
+    <ClCompile Include="src\omm2tle\parser\json.c" />
     <ClCompile Include="src\omm2tle\parser\kvn.c" />
     <ClCompile Include="src\omm2tle\parser\xml.c" />
     <ClCompile Include="src\omm2tle\tle_builder.c" />
@@ -104,7 +104,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdclatest</LanguageStandard_C>
@@ -134,6 +134,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

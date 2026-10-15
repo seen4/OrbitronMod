@@ -220,3 +220,61 @@ __declspec(naked) void __fastcall CloseTLEFile_wrap(FILE **fd){
 		jmp CloseTLEFile
 	}
 }
+
+intptr_t *TWinCtrl_WndProc = NULL;
+static intptr_t *TFMain_Addr, *TPaintbox_Addr, *TImage_Addr;
+void __declspec(naked) FixMouseScroll(void*, unsigned int* WM_MESSAGE) { //@<EAX>, @<EDX>
+	__asm {
+		mov ebx, [eax]
+
+		cmp ebx, 0x45286C
+		je TPaintbox
+		cmp ebx, 0x4CDA24
+		je TFMain
+		cmp ebx, 0x452D64
+		je TImage
+
+		CONTINUE:
+		mov esi, TWinCtrl_WndProc
+		jmp esi
+
+		TPaintbox:
+		mov ebx, TPaintbox_Addr
+		test ebx, ebx
+		jz TPaintbox_GetAddr
+		mov esi, [edx]
+		cmp esi, 0x20A
+		jne CONTINUE
+		mov eax, TFMain_Addr
+		jmp CONTINUE
+
+		TPaintbox_GetAddr:
+		mov TPaintbox_Addr, eax
+		jmp CONTINUE
+
+		TImage:
+		mov ebx, TImage_Addr
+		test ebx, ebx
+		jz TImage_GetAddr
+		mov esi, [edx]
+		cmp esi, 0x20A
+		jne CONTINUE
+		mov eax, TFMain_Addr
+		jmp CONTINUE
+
+		TImage_GetAddr:
+		mov TImage_Addr, eax
+		jmp CONTINUE
+
+
+		TFMain:
+		mov ebx, TFMain_Addr
+		test ebx, ebx
+		jz TFMain_GetAddr
+		jmp CONTINUE
+
+		TFMain_GetAddr:
+		mov TFMain_Addr, eax
+		jmp CONTINUE
+	}
+}

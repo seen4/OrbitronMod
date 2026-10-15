@@ -126,6 +126,8 @@ void SetHook()
 		Hook_FixNoradSorting();
 		MH_CreateHook((void*)0x004D8068, &SatData_cleanup_wrap, reinterpret_cast<void**>(&Satdata_cleanup_ORG));
 		MH_EnableHook((void*)0x004D8068);
+		MH_CreateHook((void*)0x00433C8F, &FixMouseScroll, reinterpret_cast<void**>(&TWinCtrl_WndProc));
+		MH_EnableHook((void*)0x00433C8F);
 	}
 }
 

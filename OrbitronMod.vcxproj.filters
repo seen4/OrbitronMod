@@ -98,13 +98,13 @@
     <ClCompile Include="src\OrbitronMod.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="src\omm2tle\json.c">
-      <Filter>Source\omm2tle\parser</Filter>
-    </ClCompile>
     <ClCompile Include="src\omm2tle\parser\xml.c">
       <Filter>Source\omm2tle\parser</Filter>
     </ClCompile>
     <ClCompile Include="src\omm2tle\parser\kvn.c">
+      <Filter>Source\omm2tle\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="src\omm2tle\parser\json.c">
       <Filter>Source\omm2tle\parser</Filter>
     </ClCompile>
   </ItemGroup>
