@@ -8,6 +8,8 @@
 
 - 为星历更新器加入了对HTTPS的支持
 
+- 修复了在使用最大化窗口时无法使用鼠标滚轮调整时间的问题
+
 ## 使用方法
 - 准备一个DLL注入器（例如[Xenos](https://github.com/DarthTon/Xenos/releases)）
 

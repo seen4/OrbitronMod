@@ -4,11 +4,13 @@
 Contains some modifications to Orbitron.
 
 ## Features
-- Replace ephemeris format from TLE with OMM
+- Replace ephemeris format from TLE with OMM (Currently supported formats: CSV, KVN)
 
 - Completely fixed the Y2K problem in TLE
 
 - Added support for HTTPS servers to TLE updater
+
+- Fixed the issue where the mouse wheel could not be used to adjust the time when the window is maximized
 
 
 ## Usage
