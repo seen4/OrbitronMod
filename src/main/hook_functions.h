@@ -112,6 +112,10 @@ SatData_cleanup_ORG Satdata_cleanup_ORG = nullptr;
 __declspec(noreturn) void SatData_cleanup() {
 	if (SatList.data) sat_destroy(&SatList);
 	SatList = sat_create();
+	if (SatList.data==0) {
+		MessageBoxA(NULL, "Program run out of memory", "Error", MB_OK | MB_ICONERROR);
+		RaiseException(0,0,0,NULL);
+	}
 	__asm {
 		leave			; manually recover stack frame
 		popfd					; recover registers
@@ -177,7 +181,7 @@ uint8_t ReadTLEData(char* SatelliteName, char* Moclzan, char* TLEDataBuffer) {
 	d.epoch_jd=ParseEpoch(d.epoch);
 	size_t id=sat_push(&SatList,d);
 	if (id == -1) {
-		MessageBoxA(NULL, "Not enough memory", "Error", MB_OK | MB_ICONERROR);
+		MessageBoxA(NULL, "Program run out of memory", "Error", MB_OK | MB_ICONERROR);
 		return 0;
 	}
 
@@ -221,16 +225,19 @@ __declspec(naked) void __fastcall CloseTLEFile_wrap(FILE **fd){
 	}
 }
 
+
+
+
 intptr_t *TWinCtrl_WndProc = NULL;
-static intptr_t *TFMain_Addr, *TPaintbox_Addr, *TImage_Addr;
+static intptr_t *TFMain_Addr;
 void __declspec(naked) FixMouseScroll(void*, unsigned int* WM_MESSAGE) { //@<EAX>, @<EDX>
 	__asm {
 		mov ebx, [eax]
 
-		cmp ebx, 0x45286C
-		je TPaintbox
 		cmp ebx, 0x4CDA24
 		je TFMain
+		cmp ebx, 0x45286C
+		je TPaintbox
 		cmp ebx, 0x452D64
 		je TImage
 
@@ -238,34 +245,20 @@ void __declspec(naked) FixMouseScroll(void*, unsigned int* WM_MESSAGE) { //@<EAX
 		mov esi, TWinCtrl_WndProc
 		jmp esi
 
+					;Hijack
 		TPaintbox:
-		mov ebx, TPaintbox_Addr
-		test ebx, ebx
-		jz TPaintbox_GetAddr
 		mov esi, [edx]
 		cmp esi, 0x20A
 		jne CONTINUE
 		mov eax, TFMain_Addr
-		jmp CONTINUE
-
-		TPaintbox_GetAddr:
-		mov TPaintbox_Addr, eax
 		jmp CONTINUE
 
 		TImage:
-		mov ebx, TImage_Addr
-		test ebx, ebx
-		jz TImage_GetAddr
 		mov esi, [edx]
 		cmp esi, 0x20A
 		jne CONTINUE
 		mov eax, TFMain_Addr
 		jmp CONTINUE
-
-		TImage_GetAddr:
-		mov TImage_Addr, eax
-		jmp CONTINUE
-
 
 		TFMain:
 		mov ebx, TFMain_Addr

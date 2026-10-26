@@ -25,7 +25,7 @@ Contains some modifications to Orbitron.
 - Click `Inject` to launch Orbitron
 
 ### OR
-- Download `Software\Orbitron-modified.exe` and `OrbitronMod.dll`
+- Download `Software\Orbitron-modified.exe` and [OrbitronMod.dll](/releases)
 
 - Place these two files under Orbitron installation directory
 
