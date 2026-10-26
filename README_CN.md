@@ -22,7 +22,7 @@
 - 点击 `Inject`，启动Orbitron
 
 ### 或者
-- 下载 [Orbitron-modified.exe](Software\Orbitron-modified.exe) 和 [OrbitronMod.dll](https://github.com/seen4/OrbitronMod/releases)
+- 下载 [Orbitron-modified.exe](Software/Orbitron-modified.exe) 和 [OrbitronMod.dll](https://github.com/seen4/OrbitronMod/releases)
 
 - 将这两个文件复制到Orbitron安装目录下
 
