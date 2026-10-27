@@ -102,6 +102,14 @@ void Hook_FixNoradSorting() {
 	WriteProcessMemory(GetCurrentProcess(), (void*)GetNORAD, (void*)opcode, 5, NULL);
 }
 
+void BypassCRCCheck(void) {
+	uint8_t jmp = 0xEB;
+	VirtualProtect((void*)0x004F5A20, 1, PAGE_EXECUTE_READWRITE, NULL);
+	WriteProcessMemory(GetCurrentProcess(), (void*)0x004F5A20, (void*)&jmp, 1, NULL);
+	VirtualProtect((void*)0x004F5ACA, 1, PAGE_EXECUTE_READWRITE, NULL);
+	WriteProcessMemory(GetCurrentProcess(), (void*)0x004F5ACA, (void*)&jmp, 1, NULL);
+}
+
 //设置钩子
 void SetHook()
 {
@@ -128,6 +136,7 @@ void SetHook()
 		MH_EnableHook((void*)0x004D8068);
 		MH_CreateHook((void*)0x00433C8F, &FixMouseScroll, reinterpret_cast<void**>(&TWinCtrl_WndProc));
 		MH_EnableHook((void*)0x00433C8F);
+		BypassCRCCheck();
 	}
 }
 
